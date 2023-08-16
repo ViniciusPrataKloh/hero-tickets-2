@@ -16,20 +16,20 @@ class App{
     this.connectDatabase();
   }
 
-  initMiddlewares(){
+  private initMiddlewares(){
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}));
   }
 
-  initRoutes(){
+  private initRoutes(){
     this.app.use('/events', this.eventsRoutes.router);
   }
 
-  initInterceptionError(){
+  private initInterceptionError(){
     this.app.use(errorMiddleware)
   }
 
-  connectDatabase(){
+  private connectDatabase(){
     connect();
   }
 
