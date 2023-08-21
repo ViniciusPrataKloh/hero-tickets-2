@@ -28,6 +28,7 @@ describe("Integration Events Tests", () => {
       .field('description', event.description)
       .field('city', event.city)
       .field('coupons', event.coupons)
+      .field('categories', ['Show'])
       .field('location[latitude]', event.location.latitude)
       .field('location[longitude]', event.location.longitude)
       .field('price[sector]', event.price[0].sector)
