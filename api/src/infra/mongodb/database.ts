@@ -8,10 +8,11 @@ export async function connect(){
     const cluster = process.env.MONGODB_CLUSTER;
     
     const url = `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/`;
+    console.log(url);
 
     await mongoose.connect(url);
     console.log("Database connect");
   } catch(error){
-    console.log("file: database.ts:5 > getConnection > error:", error);
+    console.log("file: database.ts:5 > connect > error:", error);
   }
 }
