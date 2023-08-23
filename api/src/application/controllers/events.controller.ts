@@ -6,7 +6,20 @@ class EventsController{
   constructor(private eventsService: EventsService){}
   
   async handleCreate(request: Request, response: Response, next: NextFunction){
-    const eventData = request.body;
+    let eventData = request.body;
+
+    const files: any = request.files;
+
+    if(files){
+      const banner = files.banner[0];
+      const flyers = files.flyers;
+
+      eventData = {
+        ...eventData,
+        banner: banner.filename,
+        flyers: flyers.map((flyer: any) => flyer.filename)
+      }
+    }
     
     try {
       const createEventResponse = await this.eventsService.create(eventData);

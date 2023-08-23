@@ -7,22 +7,23 @@ const eventSchema = new mongoose.Schema({
     longitude: String,
   },
   date: Date,
-  createAt: {
+  createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   description: String,
   categories: [String],
   banner: String,
   flyers: [String],
   price: {
-    type: Array
+    type: Array,
   },
   city: String,
+  formattedAddress: String,
   participants: {
     type: Array,
-    ref: 'User'
-  }
+    ref: 'User',
+  },
 });
 
 export const EventModel = mongoose.model('Event', eventSchema);
