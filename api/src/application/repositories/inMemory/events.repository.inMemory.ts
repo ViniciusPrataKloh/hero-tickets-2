@@ -10,7 +10,6 @@ class EventsRepositoryInMemory implements IEventsRepository{
 
   async create(event: Event): Promise<void> {
     this.events.push(event);
-    console.log(this.events);
 
     return;
   }
