@@ -3,6 +3,7 @@ import { EventsController } from "../controllers/events.controller";
 import { EventsRepositoryMongoose } from "../repositories/mongoose/events.repository.mongoose";
 import { EventsService } from "../services/events.service";
 import { upload } from "../../infra/multer/multer";
+import { EventsRepositoryInMemory } from "../repositories/inMemory/events.repository.inMemory";
 
 class EventsRoutes {
   public router: Router;
@@ -10,7 +11,8 @@ class EventsRoutes {
 
   constructor(){
     this.router = Router();
-    const eventsRepository = new EventsRepositoryMongoose();
+    // const eventsRepository = new EventsRepositoryMongoose();
+    const eventsRepository = new EventsRepositoryInMemory();
     const eventsService = new EventsService(eventsRepository);
     this.eventsController = new EventsController(eventsService);
     this.initRoutes();

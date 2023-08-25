@@ -6,21 +6,21 @@ import { EventModel } from "./events.model";
 
 class EventsRepositoryMongoose implements IEventsRepository{
   
-  async create(event: Event): Promise<Event>{
+  async create(event: Event): Promise<void>{
     const eventModel = new EventModel(event)
 
     await eventModel.save();
     
-    return event;
+    return ;
   }
 
-  async findByLocationAndDate(location: Location, date: Date): Promise<Event | null> {
+  async findByLocationAndDate(location: Location, date: Date): Promise<Event | undefined> {
     const event: any = await EventModel.findOne({
       location,
       date
     }).exec();
 
-    return event ? event : null;
+    return event ? event : undefined;
   }
   
 }

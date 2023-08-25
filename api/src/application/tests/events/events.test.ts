@@ -10,7 +10,7 @@ describe("Integration Events Tests", () => {
 
   const date = new Date();
 
-  it('/POST Event', async () => {
+  it('/POST Event, should be able to create a new event', async () => {
     const event = {
       title: "Jorge e Mateus",
       price: [{sector: 'pista', amount: '20'}],
@@ -48,7 +48,7 @@ describe("Integration Events Tests", () => {
     expect(response.body.message).toEqual('Evento criado com sucesso.');
   });
 
-  it('/POST event', async () => {
+  it('/POST event, should not be able to create an event with the same location and date', async () => {
     expect( async () => {
       const event = {
         title: "Jorge e Mateus",
