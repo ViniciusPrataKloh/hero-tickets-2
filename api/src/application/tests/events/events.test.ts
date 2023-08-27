@@ -81,4 +81,11 @@ describe("Integration Events Tests", () => {
       }).rejects.toBeInstanceOf(HttpError);
     });
 
+    // it('/GET event, should be able to get events by city name', async () => {
+    //     const events = await request(app)
+    //     .get('/events')
+    //     .field('city', 'Belo Horizonte');
+
+    //     expect();
+    // });
 })

@@ -8,5 +8,7 @@ export interface IEvent{
   price: any[];
   coupons: string[];
   participants: any[];
+  categories: string[];
   city: string;
+  formattedAddress: string;
 }

@@ -1,5 +1,6 @@
 import { Event } from "../../../domain/entities/event.entity";
 import { Location } from "../../../domain/entities/location.entity";
+import { IEvent } from "../../../domain/interfaces/event.interface";
 import { IEventsRepository } from "../events.repository";
 
 class EventsRepositoryInMemory implements IEventsRepository{
@@ -8,7 +9,22 @@ class EventsRepositoryInMemory implements IEventsRepository{
     private events: Event[] = []
   ){}
 
-  async create(event: Event): Promise<void> {
+  async create(eventData: IEvent): Promise<void> {
+    const event = new Event(
+      eventData.title,
+      eventData.location,
+      eventData.date,
+      eventData.description,
+      eventData.banner,
+      eventData.flyers,
+      eventData.coupons,
+      eventData.participants,
+      eventData.price,
+      eventData.city,
+      eventData.categories,
+      eventData.formattedAddress
+    );
+
     this.events.push(event);
 
     return;

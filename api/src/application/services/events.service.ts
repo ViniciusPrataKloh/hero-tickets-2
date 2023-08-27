@@ -1,4 +1,5 @@
 import { Event } from "../../domain/entities/event.entity";
+import { IEvent } from "../../domain/interfaces/event.interface";
 import { HttpError } from "../interfaces/http.error.interface";
 import { IEventsRepository } from "../repositories/events.repository";
 
@@ -7,7 +8,7 @@ class EventsService{
   constructor(
     private eventRepository: IEventsRepository){}
 
-  async create(eventData: Event){
+  async create(eventData: IEvent){
 
     if(!eventData.banner) 
       throw new HttpError(400, 'Banner is required');
@@ -24,7 +25,22 @@ class EventsService{
     if(eventAlreadyExists) 
       throw new HttpError(400, 'An event already exists for this location and date');
 
-    const eventResponse = await this.eventRepository.create(eventData);
+    const event = new Event(
+      eventData.title,
+      eventData.location,
+      eventData.date,
+      eventData.description,
+      eventData.banner,
+      eventData.flyers,
+      eventData.coupons,
+      eventData.participants,
+      eventData.price,
+      eventData.city,
+      eventData.categories,
+      eventData.formattedAddress
+    );
+
+    const eventResponse = await this.eventRepository.create(event);
 
     return eventResponse;
   }
