@@ -10,7 +10,6 @@ class EventsService{
     private eventRepository: IEventsRepository){}
 
   async create(eventData: IEvent): Promise<void>{
-
     if(!eventData.banner) 
       throw new HttpError(400, 'Banner is required');
     if(!eventData.flyers) 

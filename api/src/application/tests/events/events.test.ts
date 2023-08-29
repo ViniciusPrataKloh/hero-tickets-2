@@ -10,7 +10,6 @@ const date = new Date();
 
 describe("Integration Events Tests", () => {
 
-
   it('/POST Event, should be able to create a new event', async () => {
     const event = {
       title: "Jorge e Mateus",
@@ -31,6 +30,7 @@ describe("Integration Events Tests", () => {
       .field('title', event.title)
       .field('description', event.description)
       .field('city', event.city)
+      .field('date', event.date.toDateString())
       .field('coupons', event.coupons)
       .field('categories', ['Show'])
       .field('location[latitude]', event.location.latitude)
@@ -50,7 +50,7 @@ describe("Integration Events Tests", () => {
   });
 
   it('/POST event, should not be able to create an event with the same location and date', async () => {
-    expect( async () => {
+    expect(async () => {
       const event = {
         title: "Jorge e Mateus",
         price: [{sector: 'pista', amount: '20'}],
@@ -70,6 +70,7 @@ describe("Integration Events Tests", () => {
         .field('title', event.title)
         .field('description', event.description)
         .field('city', event.city)
+        .field('date', event.date.toDateString())
         .field('coupons', event.coupons)
         .field('categories', ['Show'])
         .field('location[latitude]', event.location.latitude)
@@ -79,8 +80,8 @@ describe("Integration Events Tests", () => {
         .attach('banner', '/home/vinicius/Downloads/banner.png')
         .attach('flyers', '/home/vinicius/Downloads/banner.png')
         .attach('flyers', '/home/vinicius/Downloads/banner.png');
-      }).rejects.toBeInstanceOf(HttpError);
-    });
+    }).rejects.toBeInstanceOf(HttpError);
+  });
 
     it('/GET event, should be able to get events by location', async () => {
       // const wrongEvent = {
@@ -97,7 +98,7 @@ describe("Integration Events Tests", () => {
       //   participants: []
       // };
   
-      // let response = await request(app)
+      // const createResponse = await request(app)
       //   .post('/events')
       //   .field('title', wrongEvent.title)
       //   .field('description', wrongEvent.description)
@@ -122,4 +123,5 @@ describe("Integration Events Tests", () => {
       expect(wrongEvents.length).toEqual(0);
       
     });
+
 })
