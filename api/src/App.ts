@@ -13,7 +13,7 @@ class App{
     this.initMiddlewares();
     this.initRoutes();
     this.initInterceptionError();
-    this.connectDatabase();
+    // this.connectDatabase();
   }
 
   private initMiddlewares(){

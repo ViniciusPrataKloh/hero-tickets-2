@@ -31,7 +31,10 @@ class EventsRoutes {
       }
     ]),
     this.eventsController.handleCreate.bind(this.eventsController));
+    
+    this.router.get('/', this.eventsController.handleGetEventsByLocation.bind(this.eventsController));
   }
+
 }
 
 export { EventsRoutes };

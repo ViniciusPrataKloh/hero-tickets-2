@@ -36,7 +36,11 @@ class EventsRepositoryInMemory implements IEventsRepository{
     return event;
   }
 
+  async findByCity(city: string): Promise<Event[] | undefined> {
+    const events = this.events.filter((event) => event.city === city);
 
+    return events;
+  }
 
 }
 

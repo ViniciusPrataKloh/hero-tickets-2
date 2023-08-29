@@ -1,14 +1,15 @@
 import request from 'supertest';
 import { App } from "../../../App";
 import { HttpError } from '../../interfaces/http.error.interface';
+import { IEvent } from '../../../domain/interfaces/event.interface';
 
 const app = new App().app;
+const date = new Date();
 
 // INTEGRATION TESTS
 
 describe("Integration Events Tests", () => {
 
-  const date = new Date();
 
   it('/POST Event, should be able to create a new event', async () => {
     const event = {
@@ -81,11 +82,44 @@ describe("Integration Events Tests", () => {
       }).rejects.toBeInstanceOf(HttpError);
     });
 
-    // it('/GET event, should be able to get events by city name', async () => {
-    //     const events = await request(app)
-    //     .get('/events')
-    //     .field('city', 'Belo Horizonte');
+    it('/GET event, should be able to get events by location', async () => {
+      // const wrongEvent = {
+      //   title: "Alok",
+      //   price: [{sector: 'pista', amount: '20'}],
+      //   description: 'Descrição do evento',
+      //   city: 'Rio de Janeiro',
+      //   location: {
+      //     latitude: '-00.000000',
+      //     longitude: '-11.111111'
+      //   },
+      //   coupons: ['10OFF'],
+      //   date: new Date(),
+      //   participants: []
+      // };
+  
+      // let response = await request(app)
+      //   .post('/events')
+      //   .field('title', wrongEvent.title)
+      //   .field('description', wrongEvent.description)
+      //   .field('city', wrongEvent.city)
+      //   .field('coupons', wrongEvent.coupons)
+      //   .field('categories', ['Show'])
+      //   .field('location[latitude]', wrongEvent.location.latitude)
+      //   .field('location[longitude]', wrongEvent.location.longitude)
+      //   .field('price[sector]', wrongEvent.price[0].sector)
+      //   .field('price[amount]', wrongEvent.price[0].amount)
+      //   .attach('banner', '/home/vinicius/Downloads/banner.png')
+      //   .attach('flyers', '/home/vinicius/Downloads/banner.png')
+      //   .attach('flyers', '/home/vinicius/Downloads/banner.png');
 
-    //     expect();
-    // });
+      const response = await request(app)
+        .get('/events?latitude=-19.8658619&longitude=-43.9737064');
+
+      const events: IEvent[] = response.body.data;
+      const wrongEvents: IEvent[] = events.filter((event) => event.city !== 'Belo Horizonte');
+
+      expect(response.status).toBe(201);
+      expect(wrongEvents.length).toEqual(0);
+      
+    });
 })

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { EventsService } from "../services/events.service";
+import { ILocation } from "../../domain/interfaces/location.interface";
 
 class EventsController{
 
@@ -22,13 +23,27 @@ class EventsController{
     }
     
     try {
-      const createEventResponse = await this.eventsService.create(eventData);
+      const eventsResponse = await this.eventsService.create(eventData);
 
       return response.status(201).json({
         message: 'Evento criado com sucesso.',
-        data: createEventResponse
+        data: eventsResponse
       })
     } catch (error) {
+      next;
+    }
+  }
+
+  async handleGetEventsByLocation(request: Request, response: Response, next: NextFunction){
+    const { latitude, longitude } = request.query;
+
+    try{
+      const eventsResponse = await this.eventsService.getEventsByLocation({ latitude, longitude } as ILocation);
+
+      return response.status(201).json({
+        data: eventsResponse 
+      });
+    } catch(error){
       next;
     }
   }

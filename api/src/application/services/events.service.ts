@@ -1,5 +1,6 @@
 import { Event } from "../../domain/entities/event.entity";
 import { IEvent } from "../../domain/interfaces/event.interface";
+import { ILocation } from "../../domain/interfaces/location.interface";
 import { HttpError } from "../interfaces/http.error.interface";
 import { IEventsRepository } from "../repositories/events.repository";
 
@@ -8,7 +9,7 @@ class EventsService{
   constructor(
     private eventRepository: IEventsRepository){}
 
-  async create(eventData: IEvent){
+  async create(eventData: IEvent): Promise<void>{
 
     if(!eventData.banner) 
       throw new HttpError(400, 'Banner is required');
@@ -40,14 +41,22 @@ class EventsService{
       eventData.formattedAddress
     );
 
-    const eventResponse = await this.eventRepository.create(event);
+    await this.eventRepository.create(event);
 
-    return eventResponse;
+    return;
   }
 
   private getCityNameByLocation(latitude: string, longitude: string): string{
 
-    return '';
+    return 'Belo Horizonte';
+  }
+
+  async getEventsByLocation({latitude, longitude}: ILocation): Promise<Event[] | undefined>{
+    const city = this.getCityNameByLocation(latitude, longitude);
+
+    const events = await this.eventRepository.findByCity(city);
+    
+    return events;
   }
 
 }

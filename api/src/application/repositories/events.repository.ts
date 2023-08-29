@@ -4,4 +4,5 @@ import { Location } from "../../domain/entities/location.entity";
 export interface IEventsRepository{
   create(event: Event): Promise<void>;
   findByLocationAndDate(location: Location, date: Date): Promise<Event | undefined>;
+  findByCity(city: string): Promise<Event[] | undefined>;
 }
