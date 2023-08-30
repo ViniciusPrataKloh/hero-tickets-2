@@ -4,6 +4,8 @@ import { ILocation } from "../../domain/interfaces/location.interface";
 import { HttpError } from "../interfaces/http.error.interface";
 import { IEventsRepository } from "../repositories/events.repository";
 
+import {v4 as uuid} from "uuid";
+
 class EventsService{
 
   constructor(
@@ -26,6 +28,7 @@ class EventsService{
       throw new HttpError(400, 'An event already exists for this location and date');
 
     const event = new Event(
+      uuid(),
       eventData.title,
       eventData.location,
       eventData.date,
@@ -56,6 +59,18 @@ class EventsService{
     const events = await this.eventRepository.findByCity(city);
     
     return events;
+  }
+
+  async getEventsByCategory(category: string): Promise<Event[] | undefined>{
+    const events = await this.eventRepository.findByCategory(category);
+
+    return events;
+  }
+
+  async getEventById(id: string): Promise<Event | undefined>{
+    const event = await this.eventRepository.findById(id);
+
+    return event;
   }
 
 }

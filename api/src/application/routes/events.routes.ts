@@ -31,8 +31,9 @@ class EventsRoutes {
       }
     ]),
     this.eventsController.handleCreate.bind(this.eventsController));
-    
     this.router.get('/', this.eventsController.handleGetEventsByLocation.bind(this.eventsController));
+    this.router.get('/category', this.eventsController.handleGetEventsByCategory.bind(this.eventsController));
+    this.router.get('/:id', this.eventsController.handleGetEventById.bind(this.eventsController));
   }
 
 }

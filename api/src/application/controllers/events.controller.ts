@@ -48,6 +48,34 @@ class EventsController{
     }
   }
 
+  async handleGetEventsByCategory(request: Request, response: Response, next: NextFunction){
+    const { category } = request.query; 
+
+    try{
+      const eventResponse = await this.eventsService.getEventsByCategory(category as string);
+
+      return response.status(201).json({
+        data: eventResponse 
+      });
+    } catch(error){
+      next;
+    }
+  }
+
+  async handleGetEventById(request: Request, response: Response, next: NextFunction){
+    const { id } = request.params;
+
+    try{
+      const eventsResponse = await this.eventsService.getEventById(id);
+
+      return response.status(201).json({
+        data: eventsResponse 
+      });
+    } catch(error){
+      next;
+    }
+  }
+
 }
 
 export { EventsController };

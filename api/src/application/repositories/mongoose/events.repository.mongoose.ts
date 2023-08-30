@@ -28,6 +28,19 @@ class EventsRepositoryMongoose implements IEventsRepository{
 
     return events ? events : undefined;
   }
+
+  async findByCategory(category: string): Promise<Event[] | undefined> {
+    const events: any = await EventModel.find({category}).exec();
+
+    return events ? events : undefined;
+  }
+
+  async findById(id: string): Promise<Event | undefined> {
+    const event: any = await EventModel.findOne({id}).exec();
+
+    return event? event : undefined;
+  }
+
   
 }
 

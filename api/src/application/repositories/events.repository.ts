@@ -5,4 +5,6 @@ export interface IEventsRepository{
   create(event: Event): Promise<void>;
   findByLocationAndDate(location: Location, date: Date): Promise<Event | undefined>;
   findByCity(city: string): Promise<Event[] | undefined>;
+  findByCategory(category: string): Promise<Event[] | undefined>;
+  findById(id: string): Promise<Event | undefined>;
 }

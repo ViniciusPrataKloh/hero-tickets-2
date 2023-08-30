@@ -3,14 +3,16 @@ import { Location } from "../../../domain/entities/location.entity";
 import { IEvent } from "../../../domain/interfaces/event.interface";
 import { IEventsRepository } from "../events.repository";
 
+import {v4 as uuid} from "uuid";
+
 class EventsRepositoryInMemory implements IEventsRepository{
 
   constructor(
     private events: Event[] = []
   ){}
-
   async create(eventData: IEvent): Promise<void> {
     const event = new Event(
+      uuid(),
       eventData.title,
       eventData.location,
       eventData.date,
@@ -41,6 +43,19 @@ class EventsRepositoryInMemory implements IEventsRepository{
 
     return events;
   }
+
+  async findByCategory(category: string): Promise<Event[] | undefined> {
+    const events = this.events.filter((event) => event.categories.includes(category));
+
+    return events;
+  }
+
+  async findById(id: string): Promise<Event | undefined> {
+    const event = this.events.find((event) => event.id === id);
+
+    return event;
+  }
+
 
 }
 

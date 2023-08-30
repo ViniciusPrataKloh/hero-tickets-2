@@ -4,6 +4,7 @@ import { User } from "./user.entity";
 
 class Event{
   constructor(
+    public id: string,
     public title: string,
     public location: Location,
     public date: Date,
