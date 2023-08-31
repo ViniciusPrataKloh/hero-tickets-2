@@ -10,22 +10,23 @@ class EventsRepositoryInMemory implements IEventsRepository{
   constructor(
     private events: Event[] = []
   ){}
-  async create(eventData: IEvent): Promise<void> {
-    const event = new Event(
-      uuid(),
-      eventData.title,
-      eventData.location,
-      eventData.date,
-      eventData.description,
-      eventData.banner,
-      eventData.flyers,
-      eventData.coupons,
-      eventData.participants,
-      eventData.price,
-      eventData.city,
-      eventData.categories,
-      eventData.formattedAddress
-    );
+
+  async create(event: IEvent): Promise<void> {
+    // const event = new Event(
+    //   uuid(),
+    //   eventData.title,
+    //   eventData.location,
+    //   eventData.date,
+    //   eventData.description,
+    //   eventData.banner,
+    //   eventData.flyers,
+    //   eventData.coupons,
+    //   eventData.participants,
+    //   eventData.price,
+    //   eventData.city,
+    //   eventData.categories,
+    //   eventData.formattedAddress
+    // );
 
     this.events.push(event);
 
@@ -56,6 +57,18 @@ class EventsRepositoryInMemory implements IEventsRepository{
     return event;
   }
 
+  async addParticipantToEvent(event: Event): Promise<void>{
+    console.log(`id: ${event.id}`);
+    const id = event.id;
+
+    let events = this.events.filter((event) => event.id !== id);
+    console.log(events);
+
+    events.push(event);
+    this.events = events;
+
+    return;
+  }
 
 }
 

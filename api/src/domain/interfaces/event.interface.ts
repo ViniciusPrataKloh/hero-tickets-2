@@ -8,7 +8,7 @@ export interface IEvent{
   flyers: string[];
   price: any[];
   coupons: string[];
-  participants: any[];
+  participants: string[];
   categories: string[];
   city: string;
   formattedAddress: string;

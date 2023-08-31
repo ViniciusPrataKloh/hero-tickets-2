@@ -119,6 +119,26 @@ describe("Integration Events Tests", () => {
     expect(event.id).toEqual(eventOld.id);
   });
 
+  it('/POST event, should be able to add a participant to an event', async () => {
+    let response = await request(app)
+      .get('/events/category?category=Show');
+
+    let event: IEvent = response.body.data[0];
+
+    response = await request(app)
+      .post(`/events/${event.id}/participant`)
+      .send({"name": "John Doe", "email": "john.doe@email.com"});
+
+    response = await request(app)
+      .get(`/events/${event.id}`);
+    
+    event = response.body.data;
+    console.log(event.participants);
+    
+    expect(response.status).toBe(201);
+    expect(event.participants).toBeGreaterThanOrEqual(1);
+  });
+
   it('/POST event, should not be able to create an event with the same location and date', async () => {
     expect(async () => {
       const event = {

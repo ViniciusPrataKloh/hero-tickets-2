@@ -4,6 +4,7 @@ import { EventsRepositoryMongoose } from "../repositories/mongoose/events.reposi
 import { EventsService } from "../services/events.service";
 import { upload } from "../../infra/multer/multer";
 import { EventsRepositoryInMemory } from "../repositories/inMemory/events.repository.inMemory";
+import { UsersRepositoryInMemory } from "../repositories/inMemory/users.repository.inMemory";
 
 class EventsRoutes {
   public router: Router;
@@ -13,7 +14,8 @@ class EventsRoutes {
     this.router = Router();
     // const eventsRepository = new EventsRepositoryMongoose();
     const eventsRepository = new EventsRepositoryInMemory();
-    const eventsService = new EventsService(eventsRepository);
+    const usersRepository = new UsersRepositoryInMemory();
+    const eventsService = new EventsService(eventsRepository, usersRepository);
     this.eventsController = new EventsController(eventsService);
     this.initRoutes();
   }
@@ -34,6 +36,7 @@ class EventsRoutes {
     this.router.get('/', this.eventsController.handleGetEventsByLocation.bind(this.eventsController));
     this.router.get('/category', this.eventsController.handleGetEventsByCategory.bind(this.eventsController));
     this.router.get('/:id', this.eventsController.handleGetEventById.bind(this.eventsController));
+    this.router.post('/:id/participant', this.eventsController.handleAddParticipant.bind(this.eventsController));
   }
 
 }

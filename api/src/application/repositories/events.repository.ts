@@ -7,4 +7,5 @@ export interface IEventsRepository{
   findByCity(city: string): Promise<Event[] | undefined>;
   findByCategory(category: string): Promise<Event[] | undefined>;
   findById(id: string): Promise<Event | undefined>;
+  addParticipantToEvent(event: Event): Promise<void>;
 }

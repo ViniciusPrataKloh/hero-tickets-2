@@ -1,15 +1,21 @@
 import { Event } from "../../domain/entities/event.entity";
+import { User } from "../../domain/entities/user.entity";
 import { IEvent } from "../../domain/interfaces/event.interface";
 import { ILocation } from "../../domain/interfaces/location.interface";
+import { IUser } from "../../domain/interfaces/user.interface";
 import { HttpError } from "../interfaces/http.error.interface";
 import { IEventsRepository } from "../repositories/events.repository";
 
 import {v4 as uuid} from "uuid";
+import { IUsersRepository } from "../repositories/users.repository";
+import { UsersService } from "./users.service";
 
 class EventsService{
 
   constructor(
-    private eventRepository: IEventsRepository){}
+    private eventsRepository: IEventsRepository,
+    private usersRepository: IUsersRepository
+  ){}
 
   async create(eventData: IEvent): Promise<void>{
     if(!eventData.banner) 
@@ -19,7 +25,7 @@ class EventsService{
     if(!eventData.location) 
       throw new HttpError(400, 'Location is required');
     
-    const eventAlreadyExists = await this.eventRepository.findByLocationAndDate(
+    const eventAlreadyExists = await this.eventsRepository.findByLocationAndDate(
       eventData.location, 
       eventData.date
     );
@@ -43,7 +49,7 @@ class EventsService{
       eventData.formattedAddress
     );
 
-    await this.eventRepository.create(event);
+    await this.eventsRepository.create(event);
 
     return;
   }
@@ -56,21 +62,36 @@ class EventsService{
   async getEventsByLocation({latitude, longitude}: ILocation): Promise<Event[] | undefined>{
     const city = this.getCityNameByLocation(latitude, longitude);
 
-    const events = await this.eventRepository.findByCity(city);
+    const events = await this.eventsRepository.findByCity(city);
     
     return events;
   }
 
   async getEventsByCategory(category: string): Promise<Event[] | undefined>{
-    const events = await this.eventRepository.findByCategory(category);
+    const events = await this.eventsRepository.findByCategory(category);
 
     return events;
   }
 
   async getEventById(id: string): Promise<Event | undefined>{
-    const event = await this.eventRepository.findById(id);
+    const event = await this.eventsRepository.findById(id);
 
     return event;
+  }
+
+  async addParticipants(id: string, name: string, email: string): Promise<void>{
+    let event = await this.getEventById(id);
+
+    const usersService = new UsersService(this.usersRepository);
+    const participantId = await usersService.create({name, email});
+
+    console.log(participantId);
+    event?.participants.push(participantId);
+    console.log(event);
+
+    await this.eventsRepository.addParticipantToEvent(event as Event);
+    console.log('passou');
+    return;
   }
 
 }

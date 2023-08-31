@@ -76,6 +76,21 @@ class EventsController{
     }
   }
 
+  async handleAddParticipant(request: Request, response: Response, next: NextFunction){
+    const { id } = request.params;
+    const { name, email } = request.body;
+    
+    try {
+      const eventsResponse = await this.eventsService.addParticipants(id, name, email);
+
+      return response.status(201).json({
+        message: 'Participante adicionado ao evento'
+      });
+    } catch (error) {
+      next;
+    }
+  }
+
 }
 
 export { EventsController };
