@@ -42,7 +42,7 @@ class EventsService{
       eventData.banner,
       eventData.flyers,
       eventData.coupons,
-      eventData.participants,
+      [],
       eventData.price,
       eventData.city,
       eventData.categories,
@@ -80,17 +80,14 @@ class EventsService{
   }
 
   async addParticipants(id: string, name: string, email: string): Promise<void>{
-    let event = await this.getEventById(id);
+    const event: Event | undefined = await this.getEventById(id);
 
     const usersService = new UsersService(this.usersRepository);
     const participantId = await usersService.create({name, email});
 
-    console.log(participantId);
     event?.participants.push(participantId);
-    console.log(event);
-
     await this.eventsRepository.addParticipantToEvent(event as Event);
-    console.log('passou');
+
     return;
   }
 

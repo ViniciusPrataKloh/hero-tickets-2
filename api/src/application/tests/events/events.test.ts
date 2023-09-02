@@ -33,6 +33,7 @@ describe("Integration Events Tests", () => {
       .field('city', event.city)
       .field('date', event.date.toDateString())
       .field('coupons', event.coupons)
+      .field('participants', event.participants)
       .field('categories', event.categories)
       .field('location[latitude]', event.location.latitude)
       .field('location[longitude]', event.location.longitude)
@@ -63,6 +64,7 @@ describe("Integration Events Tests", () => {
         .field('description', event.description)
         .field('city', event.city)
         .field('coupons', event.coupons)
+        .field('participants', event.participants)
         .field('categories', event.categories)
         .field('location[latitude]', event.location.latitude)
         .field('location[longitude]', event.location.longitude)
@@ -133,10 +135,9 @@ describe("Integration Events Tests", () => {
       .get(`/events/${event.id}`);
     
     event = response.body.data;
-    console.log(event.participants);
     
     expect(response.status).toBe(201);
-    expect(event.participants).toBeGreaterThanOrEqual(1);
+    expect(event.participants.length).toBeGreaterThanOrEqual(1);
   });
 
   it('/POST event, should not be able to create an event with the same location and date', async () => {
@@ -162,6 +163,7 @@ describe("Integration Events Tests", () => {
         .field('city', event.city)
         .field('date', event.date.toDateString())
         .field('coupons', event.coupons)
+        .field('participants', event.participants)
         .field('categories', ['Show'])
         .field('location[latitude]', event.location.latitude)
         .field('location[longitude]', event.location.longitude)

@@ -57,15 +57,13 @@ class EventsRepositoryInMemory implements IEventsRepository{
     return event;
   }
 
-  async addParticipantToEvent(event: Event): Promise<void>{
-    console.log(`id: ${event.id}`);
-    const id = event.id;
+  async addParticipantToEvent(eventUpdate: Event): Promise<void>{
+    const id = eventUpdate.id;
 
     let events = this.events.filter((event) => event.id !== id);
-    console.log(events);
 
-    events.push(event);
     this.events = events;
+    events.push(eventUpdate);
 
     return;
   }

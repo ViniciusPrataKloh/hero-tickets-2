@@ -11,6 +11,15 @@ class EventsController{
 
     const files: any = request.files;
 
+    if(eventData.participants === undefined || eventData.participants === null){
+      let participants: string[] = [];
+
+      eventData = {
+        ...eventData,
+        participants
+      }
+    }
+
     if(files){
       const banner = files.banner[0];
       const flyers = files.flyers;
