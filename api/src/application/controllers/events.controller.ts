@@ -20,18 +20,18 @@ class EventsController{
       }
     }
 
-    if(files){
-      const banner = files.banner[0];
-      const flyers = files.flyers;
-
-      eventData = {
-        ...eventData,
-        banner: banner.filename,
-        flyers: flyers.map((flyer: any) => flyer.filename)
-      }
-    }
-    
     try {
+      if(files){
+        const banner = files.banner[0];
+        const flyers = files.flyers;
+
+        eventData = {
+          ...eventData,
+          banner: banner.filename,
+          flyers: flyers.map((flyer: any) => flyer.filename)
+        }
+      }
+
       const eventsResponse = await this.eventsService.create(eventData);
 
       return response.status(201).json({

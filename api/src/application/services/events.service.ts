@@ -22,8 +22,10 @@ class EventsService{
       throw new HttpError(400, 'Banner is required');
     if(!eventData.flyers) 
       throw new HttpError(400, 'Flyers is required');
-    if(!eventData.location) 
+    if(!eventData.location) {
+      console.log('caiu');
       throw new HttpError(400, 'Location is required');
+    }
     
     const eventAlreadyExists = await this.eventsRepository.findByLocationAndDate(
       eventData.location, 
@@ -55,11 +57,14 @@ class EventsService{
   }
 
   private getCityNameByLocation(latitude: string, longitude: string): string{
-
     return 'Belo Horizonte';
   }
 
   async getEventsByLocation({latitude, longitude}: ILocation): Promise<Event[] | undefined>{
+    if((!latitude || latitude === '') || (!longitude || longitude === '')){
+      throw new HttpError(400, 'Latitude and longitude are required');
+    }
+
     const city = this.getCityNameByLocation(latitude, longitude);
 
     const events = await this.eventsRepository.findByCity(city);
@@ -68,18 +73,36 @@ class EventsService{
   }
 
   async getEventsByCategory(category: string): Promise<Event[] | undefined>{
+    if(!category || category === undefined || category === ''){
+      throw new HttpError(400, 'Category is required');
+    }
+
     const events = await this.eventsRepository.findByCategory(category);
 
     return events;
   }
 
   async getEventById(id: string): Promise<Event | undefined>{
+    if(!id || id === undefined || id === ''){
+      throw new HttpError(400, 'id is required');
+    }
+
     const event = await this.eventsRepository.findById(id);
+
+    if(!event) throw new HttpError(400, 'Invalid event id');
 
     return event;
   }
 
   async addParticipants(id: string, name: string, email: string): Promise<void>{
+    // if(
+    //   (id === undefined || id === '') ||
+    //   (name === undefined || name === '') ||
+    //   (email === undefined || email === '')
+    // ){
+    //   throw new HttpError(400, 'Id, name and email are required');
+    // }
+
     const event: Event | undefined = await this.getEventById(id);
 
     const usersService = new UsersService(this.usersRepository);

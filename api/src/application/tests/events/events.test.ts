@@ -82,6 +82,42 @@ describe("Integration Events Tests", () => {
     expect(response.body.message).toEqual('Evento criado com sucesso.');
   });
 
+
+  it.skip('/POST Event, should not be able to create a new event with empty location', async => {
+    expect(async () => {
+      let event = {
+        title: "Jorge e Mateus",
+        price: [{sector: 'pista', amount: '20'}],
+        description: 'Descrição do evento',
+        city: 'Belo Horizonte',
+        categories: ['Show'],
+        coupons: ['10OFF'],
+        date: date,
+        participants: [],
+        // location: {
+        //   latitude: '-19.8658619',
+        //   longitude: '-43.9737064'
+        // },
+      };
+  
+      let response = await request(app)
+        .post('/events')
+        .field('title', event.title)
+        .field('description', event.description)
+        .field('city', event.city)
+        .field('date', event.date.toDateString())
+        .field('coupons', event.coupons)
+        .field('participants', event.participants)
+        .field('categories', event.categories)
+        .field('price[sector]', event.price[0].sector)
+        .field('price[amount]', event.price[0].amount)
+        .attach('banner', '/home/vinicius/Downloads/banner.png')
+        .attach('flyers', '/home/vinicius/Downloads/banner.png')
+        .attach('flyers', '/home/vinicius/Downloads/banner.png');
+    }).rejects.toBeInstanceOf(HttpError);
+  });
+
+
   it('/GET event, should be able to get events by location', async () => {
     const response = await request(app)
       .get('/events?latitude=-19.8658619&longitude=-43.9737064');
@@ -94,6 +130,15 @@ describe("Integration Events Tests", () => {
     expect(wrongEvents.length).toEqual(0);
   });
 
+
+  it('/GET event, should not be able to get events by empty location', async () => {
+    expect(async () => {
+      const response = await request(app)
+      .get('/events?latitude=&longitude=-43.9737064');
+    }).rejects.toBeInstanceOf(HttpError);
+  });
+
+
   it('/GET event/category, should be able to get events by category', async () => {
     const response = await request(app)
       .get('/events/category?category=Show');
@@ -105,6 +150,15 @@ describe("Integration Events Tests", () => {
     expect(events.length).toBeGreaterThanOrEqual(1);
     expect(wrongEvents.length).toEqual(0);
   });
+
+
+  it('/GET event/category, should not be able to get events by empty category', async () => {
+    expect( async () => {
+      const response = await request(app)
+      .get('/events/category?category=');
+    }).rejects.toBeInstanceOf(HttpError);
+  });
+
 
   it('/GET event, should be able to get events by id', async () => {
     let response = await request(app)
@@ -120,6 +174,17 @@ describe("Integration Events Tests", () => {
     expect(response.status).toBe(201);
     expect(event.id).toEqual(eventOld.id);
   });
+
+
+  it('/GET event, should not be able to get events by invalid id', async () => {
+    expect( async () => {
+      const id = '1a2b3c-4d5e6f-7g8h9i';
+
+      const response = await request(app)
+      .get(`/events/${id}`);
+    }).rejects.toBeInstanceOf(HttpError);
+  });
+
 
   it('/POST event, should be able to add a participant to an event', async () => {
     let response = await request(app)
@@ -139,6 +204,20 @@ describe("Integration Events Tests", () => {
     expect(response.status).toBe(201);
     expect(event.participants.length).toBeGreaterThanOrEqual(1);
   });
+
+  it('should not be able to add an empty participant to an event', async () => {
+    expect( async () => {
+      let response = await request(app)
+      .get('/events/category?category=Show');
+
+      let event: IEvent = response.body.data[0];
+
+      response = await request(app)
+        .post(`/events/${event.id}/participant`)
+        .send({"name": "", "email": ""});
+    }).rejects.toBeInstanceOf(HttpError);
+  });
+
 
   it('/POST event, should not be able to create an event with the same location and date', async () => {
     expect(async () => {
@@ -174,4 +253,5 @@ describe("Integration Events Tests", () => {
         .attach('flyers', '/home/vinicius/Downloads/banner.png');
     }).rejects.toBeInstanceOf(HttpError);
   });
-})
+
+});

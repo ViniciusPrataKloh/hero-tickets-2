@@ -4,7 +4,7 @@ import { errorMiddleware } from "../../middlewares/error.middleware";
 
 describe("HTTP Error Middleware", () => {
 
-  it.only('should respond with the correct status and message HttpException', async () => {
+  it('should respond with the correct status and message HttpException', async () => {
     const httpError: HttpError = {
       name: 'Http Error',
       status: 404,

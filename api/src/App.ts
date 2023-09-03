@@ -29,7 +29,7 @@ class App{
     this.app.use(errorMiddleware)
   }
 
-  private connectDatabase(){
+  public connectDatabase(){
     connect();
   }
 
