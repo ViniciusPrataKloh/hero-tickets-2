@@ -11,7 +11,7 @@ export default function FilterForm(){
                 placeholder="Insira o nome do seu evento"
                 type="text"
                 id="name"
-                className="py-2 px-5 border-2 border-secondary-blue rounded-lg"
+                className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
               />
             </div>
 
@@ -21,7 +21,7 @@ export default function FilterForm(){
                 placeholder="Insira a localização do seu evento"
                 type="text"
                 id="address"
-                className="py-2 px-5 border-2 border-secondary-blue rounded-lg"
+                className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
               />
             </div>
 
@@ -31,7 +31,7 @@ export default function FilterForm(){
                 <input 
                   type="date"
                   id="date"
-                  className="py-2 px-5 border-2 border-secondary-blue rounded-lg"
+                  className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
                 />
               </div>
               <div className="flex flex-col gap-2 w-full">
@@ -39,7 +39,7 @@ export default function FilterForm(){
                 <input 
                   type="time"
                   id="name"
-                  className="py-2 px-5 border-2 border-secondary-blue rounded-lg"
+                  className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
                 />
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function FilterForm(){
                 placeholder="Insira o nome do seu evento"
                 type=""
                 id="type"
-                className="py-2 px-5 border-2 border-secondary-blue rounded-lg"
+                className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
               />
             </div>
 
@@ -65,7 +65,7 @@ export default function FilterForm(){
                     <Slider.Range className="absolute bg-secondary-blue rounded-full h-full" />
                   </Slider.Track>
                   <Slider.Thumb
-                    className="block w-5 h-5 bg-white border-primary-blue border rounded-full"
+                    className="block w-5 h-5 bg-white border-primary-blue border rounded-full outline-none"
                     aria-label="Volume"
                   />
                 </Slider.Root>

@@ -1,8 +1,8 @@
-import FilterForm from "../components/FilterForm";
 import EventCard from "../components/EventCard";
+import FilterForm from "../components/FilterForm";
 
-export default function Home(){
-  return(
+export default function Search() {
+  return (
     <div className="px-14 mt-28 text-primary-blue">
       <header className="font-normal text-base">
         Home - <strong>Filtrar Eventos</strong>
@@ -22,13 +22,14 @@ export default function Home(){
             <h2 className="text-2xl font-medium">Resultados da busca</h2>
             <span className="text-base font-light">Explore os resultados da sua busca por diversão! :)</span>
           </header>
-          
+
           <main className="mt-8">
-            
-            <div>
+
+            <div className="flex flex-col">
+              <EventCard />
               <EventCard />
             </div>
-            
+
           </main>
         </section>
 
