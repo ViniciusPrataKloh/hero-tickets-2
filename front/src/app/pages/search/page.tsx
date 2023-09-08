@@ -1,14 +1,13 @@
+import HeaderPages from "@/app/components/HeaderPages";
 import EventCard from "../../components/EventCard";
 import FilterForm from "../../components/FilterForm";
 
-export default function Page() {
+export default function Search() {
   return (
-    <div className="mx-auto my-0 max-w-[1440px]">
+    <div className="mx-auto my-0 max-w-[1600px]">
 
       <div className="px-14 mt-28 text-primary-blue">
-        <header className="font-normal text-base">
-          Home - <strong>Filtrar Eventos</strong>
-        </header>
+        <HeaderPages label="Filtrar Eventos" />
 
         <main className="grid grid-cols-2 mt-8">
 

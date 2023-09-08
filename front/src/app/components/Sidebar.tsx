@@ -20,7 +20,7 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        <Link href={'/'}>
+        <Link href={'/pages/new'}>
           <div className="flex flex-col text-center items-center justify-center cursor-pointer mb-9">
             <LuPlusSquare size={30} />
             <span>Adicionar Evento</span>
