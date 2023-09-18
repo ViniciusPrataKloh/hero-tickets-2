@@ -1,6 +1,8 @@
 "use client";
 
 import * as Checkbox from '@radix-ui/react-checkbox';
+import { ChangeEvent } from 'react';
+import { UseFormRegister, FieldValues } from 'react-hook-form';
 import { LuCheck } from 'react-icons/lu';
 
 const typesEvent = [
@@ -12,9 +14,39 @@ const typesEvent = [
   'Gastronomia',
   'Musical',
   'Outros',
-]
+];
 
-export default function NewForm() {
+interface IRegistersFields {
+  // [field: string]: UseFormRegister<FieldValues> | any;
+  [field: string]: string;
+}
+
+interface IInputFieldsProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  registerTitle: UseFormRegister<FieldValues> | any;
+  registerLocation: UseFormRegister<FieldValues> | any;
+  registerDate: UseFormRegister<FieldValues> | any;
+  registerTime: UseFormRegister<FieldValues> | any;
+  registerCategories: UseFormRegister<FieldValues> | any;
+  registerPrice: UseFormRegister<FieldValues> | any;
+  registerSector: UseFormRegister<FieldValues> | any;
+  registerCoupons: UseFormRegister<FieldValues> | any;
+  registerDescription: UseFormRegister<FieldValues> | any;
+}
+
+export default function NewForm({
+  onChange,
+  registerTitle,
+  registerLocation,
+  registerDate,
+  registerTime,
+  registerCategories,
+  registerPrice,
+  registerSector,
+  registerCoupons,
+  registerDescription
+}: IInputFieldsProps) {
+
   return (
     <form className="flex flex-col gap-8 mt-6">
       <div className="flex flex-col gap-2">
@@ -23,7 +55,8 @@ export default function NewForm() {
           placeholder="Insira o título do seu evento"
           type="text"
           id="title"
-          className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+          className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
+          {...registerTitle}
         />
       </div>
 
@@ -34,6 +67,7 @@ export default function NewForm() {
           type="text"
           id="address"
           className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+          {...registerLocation}
         />
       </div>
 
@@ -44,6 +78,7 @@ export default function NewForm() {
             type="date"
             id="date"
             className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+            {...registerDate}
           />
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -52,6 +87,7 @@ export default function NewForm() {
             type="time"
             id="name"
             className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+            {...registerTime}
           />
         </div>
       </div>
@@ -91,6 +127,7 @@ export default function NewForm() {
               id="price"
               placeholder='R$ 0,00'
               className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              {...registerPrice}
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
@@ -100,6 +137,7 @@ export default function NewForm() {
               id="sector"
               placeholder='Insira o setor'
               className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              {...registerSector}
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
@@ -109,6 +147,7 @@ export default function NewForm() {
               id="coupon"
               placeholder='Insira o código'
               className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              {...registerCoupons}
             />
           </div>
         </div>
@@ -120,6 +159,7 @@ export default function NewForm() {
           placeholder="Dê uma descrição que vai embalar o seu público!"
           id="description"
           className="h-[102px] flex py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+          {...registerDescription}
         />
       </div>
 

@@ -4,7 +4,7 @@ import { LuFilter, LuHelpCircle, LuHome, LuMapPin, LuPlusSquare, LuShieldAlert }
 export default function Sidebar() {
   return (
     <aside className="sidebar fixed z-10 top-[86px] bottom-0 text-xs text-primary-blue h-screen right-0 p-2 w-[90px] overflow-y-auto text-center bg-custom-gray-200 shadow">
-      <div className="h-full px-3 py-4 overflow-y-auto">
+      <div className="h-full px-3 py-4">
 
         <Link href={'/'}>
           <div className="flex flex-col text-center items-center justify-center cursor-pointer mb-9">
