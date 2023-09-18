@@ -5,9 +5,8 @@ import NewForm from "@/app/components/NewForm";
 import { InputFile } from "@/app/components/InputFile";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as Checkbox from '@radix-ui/react-checkbox';
-import { ChangeEvent } from 'react';
-import { LuCheck } from 'react-icons/lu';
+
+import * as zod from "zod";
 
 const typesEvent = [
   'Acadêmico',
@@ -40,8 +39,9 @@ interface IFormProps {
   title: string;
   coupons: string;
   date: string;
-  latitude: string;
-  longitude: string;
+  // latitude: string;
+  // longitude: string;
+  location: string;
 
   time: string;
   price: string;
@@ -52,6 +52,19 @@ interface IFormProps {
   banner: File;
 }
 
+// const newFormSchema = zod.object({
+//   title: zod.string().min(1, 'Informe o título'),
+//   location: zod.string().min(1, 'Informe a localização'),
+//   date: zod.any(),
+//   time: zod.any(),
+//   categories: zod.any(),
+//   price: zod.number(),
+//   sector: zod.string(),
+//   coupons: zod.string(),
+//   description: zod.string().min(1, 'Informe a descrição do evento'),
+// });
+
+// type newFormData = zod.infer<typeof newFormSchema>
 
 export default function New() {
   const [eventData, setEventData] = useState<IEvent>({} as IEvent);
@@ -72,24 +85,22 @@ export default function New() {
     }
   };
 
+  function onSubmit(e: any) {
+    e.preventDefault();
+    console.log({
+      title, location, date, time, categories, price, sector, coupons, description
+    });
+  }
+
   const title = watch('title');
-  console.log(`title: ${title}`);
   const location = watch('location');
-  console.log(`location: ${location}`);
   const date = watch('date');
-  console.log(`date: ${date}`);
   const time = watch('time');
-  console.log(`time: ${time}`);
   const categories = watch('categories');
-  console.log(`categories: ${categories}`);
   const price = watch('price');
-  console.log(`price: ${price}`);
   const sector = watch('sector');
-  console.log(`sector: ${sector}`);
   const coupons = watch('coupons');
-  console.log(`coupons: ${coupons}`);
   const description = watch('description');
-  console.log(`description: ${description}`);
 
   return (
     <div className="mx-auto mt-0 max-w-[1600px] flex-1">
@@ -97,7 +108,7 @@ export default function New() {
       <div className="px-14 mt-28 text-primary-blue">
         <HeaderPages label="Adicionar Eventos" />
 
-        <form >
+        <form onSubmit={onSubmit}>
           <main className="grid grid-cols-2 mt-8">
 
             {/* LEFT */}
@@ -118,7 +129,6 @@ export default function New() {
                 registerDescription={{ ...register('description') }}
               />
             </section>
-
 
 
             {/* RIGHT */}
@@ -161,6 +171,13 @@ export default function New() {
                   <div className="mt-1 w-[522px] h-[228px] rounded-3xl bg-gray-300">
                   </div>
                 </div>
+
+                <button
+                  className="px-6 py-3 mt-4 rounded-3xl bg-primary-blue text-base font-bold text-white"
+                  type="submit"
+                >
+                  Registrar Evento
+                </button>
 
               </main>
             </section>

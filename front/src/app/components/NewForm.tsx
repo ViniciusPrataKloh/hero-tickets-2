@@ -1,7 +1,7 @@
 "use client";
 
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { UseFormRegister, FieldValues } from 'react-hook-form';
 import { LuCheck } from 'react-icons/lu';
 
@@ -46,6 +46,19 @@ export default function NewForm({
   registerCoupons,
   registerDescription
 }: IInputFieldsProps) {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  function handleAddTypes(type: string) {
+    if (categories.includes(type)) {
+      const newCategories = categories.filter((category) => category !== type);
+      setCategories(newCategories);
+    } else {
+      setCategories((state) => [...state, type]);
+    }
+
+  }
+
+  console.log(categories);
 
   return (
     <form className="flex flex-col gap-8 mt-6">
@@ -66,7 +79,7 @@ export default function NewForm({
           placeholder="Insira o endereço do seu evento"
           type="text"
           id="address"
-          className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+          className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
           {...registerLocation}
         />
       </div>
@@ -77,7 +90,7 @@ export default function NewForm({
           <input
             type="date"
             id="date"
-            className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+            className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
             {...registerDate}
           />
         </div>
@@ -86,7 +99,7 @@ export default function NewForm({
           <input
             type="time"
             id="name"
-            className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+            className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
             {...registerTime}
           />
         </div>
@@ -99,9 +112,17 @@ export default function NewForm({
             typesEvent.map((type) => {
               return (
                 <div className='flex flex-row gap-2 items-center ' key={type}>
-                  <Checkbox.Root className='h-6 w-6 border border-custom-gray-300 flex items-center justify-center'>
+                  <Checkbox.Root
+                    className='h-6 w-6 border border-custom-gray-300 flex items-center justify-center text-gray-700'
+                    value={type}
+                    checked={true}
+                    onCheckedChange={() => handleAddTypes(type)}
+                  >
                     <Checkbox.Indicator id="check">
-                      <LuCheck className="text-secondary-blue font-bold" size={20} />
+                      {
+                        categories.includes(type) ? <LuCheck className="text-secondary-blue font-bold" size={20} /> : <></>
+                      }
+
                     </Checkbox.Indicator>
                   </Checkbox.Root>
                   <span>{type}</span>
