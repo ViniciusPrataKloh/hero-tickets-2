@@ -2,13 +2,14 @@ import express, { Application } from 'express';
 import { errorMiddleware } from './application/middlewares/error.middleware';
 import { EventsRoutes } from './application/routes/events.routes';
 import { connect } from './infra/mongodb/database';
+import cors from 'cors';
 
-class App{
+class App {
   public app: Application;
-  
+
   private eventsRoutes = new EventsRoutes();
 
-  constructor(){
+  constructor() {
     this.app = express();
     this.initMiddlewares();
     this.initRoutes();
@@ -16,24 +17,25 @@ class App{
     // this.connectDatabase();
   }
 
-  private initMiddlewares(){
+  private initMiddlewares() {
     this.app.use(express.json());
-    this.app.use(express.urlencoded({extended: true}));
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cors());
   }
 
-  private initRoutes(){
+  private initRoutes() {
     this.app.use('/events', this.eventsRoutes.router);
   }
 
-  private initInterceptionError(){
+  private initInterceptionError() {
     this.app.use(errorMiddleware)
   }
 
-  public connectDatabase(){
+  public connectDatabase() {
     connect();
   }
 
-  listen(){
+  listen() {
     this.app.listen(3333, () => {
       console.log("Server in running on port 3333");
     })

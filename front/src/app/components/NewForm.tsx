@@ -106,7 +106,7 @@ export default function NewForm({
               return (
                 <div className='flex flex-row gap-2 items-center ' key={type}>
                   <Checkbox.Root
-                    className='h-6 w-6 border border-custom-gray-300 flex items-center justify-center text-gray-700'
+                    className='h-6 w-6 border border-custom-gray-300 flex items-center justify-center'
                     value={type}
                     checked={true}
                     onCheckedChange={() => handleToggleCategory(type)}
@@ -140,7 +140,7 @@ export default function NewForm({
               type="text"
               id="price"
               placeholder='R$ 0,00'
-              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
               {...registerPrice}
             />
           </div>
@@ -150,7 +150,7 @@ export default function NewForm({
               type="text"
               id="sector"
               placeholder='Insira o setor'
-              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
               {...registerSector}
             />
           </div>
@@ -160,7 +160,7 @@ export default function NewForm({
               type="text"
               id="coupon"
               placeholder='Insira o código'
-              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+              className="py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
               {...registerCoupons}
             />
           </div>
@@ -172,7 +172,7 @@ export default function NewForm({
         <textarea
           placeholder="Dê uma descrição que vai embalar o seu público!"
           id="description"
-          className="h-[102px] flex py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none"
+          className="h-[102px] flex py-2 px-5 border-2 border-secondary-blue rounded-lg outline-none text-gray-700"
           {...registerDescription}
         />
       </div>

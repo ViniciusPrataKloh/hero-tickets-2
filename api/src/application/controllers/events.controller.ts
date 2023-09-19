@@ -2,16 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import { EventsService } from "../services/events.service";
 import { ILocation } from "../../domain/interfaces/location.interface";
 
-class EventsController{
+class EventsController {
 
-  constructor(private eventsService: EventsService){}
-  
-  async handleCreate(request: Request, response: Response, next: NextFunction){
+  constructor(private eventsService: EventsService) { }
+
+  async handleCreate(request: Request, response: Response, next: NextFunction) {
     let eventData = request.body;
+    console.log(eventData);
 
     const files: any = request.files;
 
-    if(eventData.participants === undefined || eventData.participants === null){
+    if (eventData.participants === undefined || eventData.participants === null) {
       let participants: string[] = [];
 
       eventData = {
@@ -21,7 +22,7 @@ class EventsController{
     }
 
     try {
-      if(files){
+      if (files) {
         const banner = files.banner[0];
         const flyers = files.flyers;
 
@@ -43,52 +44,52 @@ class EventsController{
     }
   }
 
-  async handleGetEventsByLocation(request: Request, response: Response, next: NextFunction){
+  async handleGetEventsByLocation(request: Request, response: Response, next: NextFunction) {
     const { latitude, longitude } = request.query;
 
-    try{
+    try {
       const eventsResponse = await this.eventsService.getEventsByLocation({ latitude, longitude } as ILocation);
 
       return response.status(201).json({
-        data: eventsResponse 
+        data: eventsResponse
       });
-    } catch(error){
+    } catch (error) {
       next;
     }
   }
 
-  async handleGetEventsByCategory(request: Request, response: Response, next: NextFunction){
-    const { category } = request.query; 
+  async handleGetEventsByCategory(request: Request, response: Response, next: NextFunction) {
+    const { category } = request.query;
 
-    try{
+    try {
       const eventResponse = await this.eventsService.getEventsByCategory(category as string);
 
       return response.status(201).json({
-        data: eventResponse 
+        data: eventResponse
       });
-    } catch(error){
+    } catch (error) {
       next;
     }
   }
 
-  async handleGetEventById(request: Request, response: Response, next: NextFunction){
+  async handleGetEventById(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
 
-    try{
+    try {
       const eventsResponse = await this.eventsService.getEventById(id);
 
       return response.status(201).json({
-        data: eventsResponse 
+        data: eventsResponse
       });
-    } catch(error){
+    } catch (error) {
       next;
     }
   }
 
-  async handleAddParticipant(request: Request, response: Response, next: NextFunction){
+  async handleAddParticipant(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
     const { name, email } = request.body;
-    
+
     try {
       const eventsResponse = await this.eventsService.addParticipants(id, name, email);
 

@@ -5,8 +5,8 @@ import NewForm from "@/app/components/NewForm";
 import { InputFile } from "@/app/components/InputFile";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-import * as zod from "zod";
+import { api } from "@/utils/axios";
+import { AxiosError } from "axios";
 
 const typesEvent = [
   'Acadêmico',
@@ -82,7 +82,6 @@ export default function New() {
   function handleFieldChange(field: any, value: any) {
     console.log({ field, value });
   }
-  console.log(categories);
 
   function handleFileChange(field: any, file: any) {
     switch (field) {
@@ -105,11 +104,34 @@ export default function New() {
     }
   };
 
-  function onSubmit(e: any) {
+  async function onSubmit(e: any) {
     e.preventDefault();
     console.log({
       title, location, date, time, categories: [], price, sector, coupons, description, banner, flyers, map
     });
+
+    await api
+      .post('/events', {
+        title,
+        location,
+        date,
+        time,
+        categories,
+        price,
+        sector,
+        coupons,
+        description,
+        banner,
+        flyers
+      })
+      .then(() => {
+        alert('Evento criado com sucesso!')
+        // navigate('/')
+      })
+      .catch((reason: AxiosError<{ message: string }>) => {
+        console.error(reason.response?.data.message)
+        alert(reason.response?.data.message)
+      })
   }
 
   const title = watch('title');

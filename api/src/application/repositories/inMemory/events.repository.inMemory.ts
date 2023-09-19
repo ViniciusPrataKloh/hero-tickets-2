@@ -3,13 +3,13 @@ import { Location } from "../../../domain/entities/location.entity";
 import { IEvent } from "../../../domain/interfaces/event.interface";
 import { IEventsRepository } from "../events.repository";
 
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from "uuid";
 
-class EventsRepositoryInMemory implements IEventsRepository{
+class EventsRepositoryInMemory implements IEventsRepository {
 
   constructor(
     private events: Event[] = []
-  ){}
+  ) { }
 
   async create(event: IEvent): Promise<void> {
     // const event = new Event(
@@ -29,6 +29,7 @@ class EventsRepositoryInMemory implements IEventsRepository{
     // );
 
     this.events.push(event);
+    console.log(this.events);
 
     return;
   }
@@ -57,7 +58,7 @@ class EventsRepositoryInMemory implements IEventsRepository{
     return event;
   }
 
-  async addParticipantToEvent(eventUpdate: Event): Promise<void>{
+  async addParticipantToEvent(eventUpdate: Event): Promise<void> {
     const id = eventUpdate.id;
 
     let events = this.events.filter((event) => event.id !== id);
