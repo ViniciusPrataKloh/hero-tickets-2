@@ -1,7 +1,6 @@
 "use client";
 
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { ChangeEvent, useState } from 'react';
 import { UseFormRegister, FieldValues } from 'react-hook-form';
 import { LuCheck } from 'react-icons/lu';
 
@@ -16,13 +15,8 @@ const typesEvent = [
   'Outros',
 ];
 
-interface IRegistersFields {
-  // [field: string]: UseFormRegister<FieldValues> | any;
-  [field: string]: string;
-}
 
 interface IInputFieldsProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   registerTitle: UseFormRegister<FieldValues> | any;
   registerLocation: UseFormRegister<FieldValues> | any;
   registerDate: UseFormRegister<FieldValues> | any;
@@ -32,33 +26,32 @@ interface IInputFieldsProps extends React.InputHTMLAttributes<HTMLInputElement> 
   registerSector: UseFormRegister<FieldValues> | any;
   registerCoupons: UseFormRegister<FieldValues> | any;
   registerDescription: UseFormRegister<FieldValues> | any;
+  categories: string[];
+  handleSetCategories: (categories: string[]) => void
 }
 
 export default function NewForm({
-  onChange,
   registerTitle,
   registerLocation,
   registerDate,
   registerTime,
-  registerCategories,
   registerPrice,
   registerSector,
   registerCoupons,
-  registerDescription
+  registerDescription,
+  categories,
+  handleSetCategories
 }: IInputFieldsProps) {
-  const [categories, setCategories] = useState<string[]>([]);
 
-  function handleAddTypes(type: string) {
+  function handleToggleCategory(type: string) {
     if (categories.includes(type)) {
       const newCategories = categories.filter((category) => category !== type);
-      setCategories(newCategories);
+      handleSetCategories(newCategories);
     } else {
-      setCategories((state) => [...state, type]);
+      handleSetCategories([...categories, type]);
     }
 
   }
-
-  console.log(categories);
 
   return (
     <form className="flex flex-col gap-8 mt-6">
@@ -116,7 +109,7 @@ export default function NewForm({
                     className='h-6 w-6 border border-custom-gray-300 flex items-center justify-center text-gray-700'
                     value={type}
                     checked={true}
-                    onCheckedChange={() => handleAddTypes(type)}
+                    onCheckedChange={() => handleToggleCategory(type)}
                   >
                     <Checkbox.Indicator id="check">
                       {

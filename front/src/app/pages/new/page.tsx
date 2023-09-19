@@ -68,27 +68,47 @@ interface IFormProps {
 
 export default function New() {
   const [eventData, setEventData] = useState<IEvent>({} as IEvent);
+  const [banner, setBanner] = useState<File | null>(null);
   const [flyers, setFlyers] = useState<File[]>([]);
+  const [map, setMap] = useState<File | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
 
   const { register, watch, handleSubmit } = useForm<IFormProps>();
+
+  function handleSetCategories(categories: string[]) {
+    setCategories(categories);
+  }
 
   function handleFieldChange(field: any, value: any) {
     console.log({ field, value });
   }
+  console.log(categories);
 
   function handleFileChange(field: any, file: any) {
-    if (field === 'flyers') {
-      setFlyers([...flyers, file]);
-    } else {
-      // setValue(field, file);
-      console.log({ field, file });
+    switch (field) {
+      case 'banner':
+        setBanner(file);
+        return;
+
+      case 'flyer':
+        if (flyers.length <= 3) {
+          setFlyers([...flyers, file]);
+        }
+        return;
+
+      case 'map':
+        setMap(file);
+        return
+
+      default:
+        return;
     }
   };
 
   function onSubmit(e: any) {
     e.preventDefault();
     console.log({
-      title, location, date, time, categories, price, sector, coupons, description
+      title, location, date, time, categories: [], price, sector, coupons, description, banner, flyers, map
     });
   }
 
@@ -96,7 +116,6 @@ export default function New() {
   const location = watch('location');
   const date = watch('date');
   const time = watch('time');
-  const categories = watch('categories');
   const price = watch('price');
   const sector = watch('sector');
   const coupons = watch('coupons');
@@ -117,7 +136,6 @@ export default function New() {
               <span className="text-base font-light">Crie o seu próprio evento da maneira que você preferir! :)</span>
 
               <NewForm
-                onChange={() => handleFieldChange}
                 registerTitle={{ ...register('title') }}
                 registerLocation={{ ...register('location') }}
                 registerDate={{ ...register('date') }}
@@ -127,6 +145,8 @@ export default function New() {
                 registerSector={{ ...register('sector') }}
                 registerCoupons={{ ...register('coupons') }}
                 registerDescription={{ ...register('description') }}
+                categories={categories}
+                handleSetCategories={handleSetCategories}
               />
             </section>
 
@@ -157,10 +177,22 @@ export default function New() {
                   <span className="text-xs font-light text-gray-600">Insira até três flyers</span>
                   <div className="grid grid-cols-3 pr-32 ">
                     <div className="h-[120px] w-[162px] rounded-3xl bg-gray-300">
+                      <InputFile
+                        // {...register('flyer')}
+                        onChange={(e) => handleFileChange('flyer', e)}
+                      />
                     </div>
                     <div className="h-[120px] w-[162px] rounded-3xl bg-gray-300">
+                      <InputFile
+                        // {...register('flyer')}
+                        onChange={(e) => handleFileChange('flyer', e)}
+                      />
                     </div>
                     <div className="h-[120px] w-[162px] rounded-3xl bg-gray-300">
+                      <InputFile
+                        // {...register('flyer')}
+                        onChange={(e) => handleFileChange('flyer', e)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -169,15 +201,21 @@ export default function New() {
                   <h2 className="mt-10 text-base font-medium text-primary-blue">Mapa do Evento</h2>
                   <span className="text-xs font-light text-gray-600">Insira o Mapa do Evento indicando os setores</span>
                   <div className="mt-1 w-[522px] h-[228px] rounded-3xl bg-gray-300">
+                    <InputFile
+                      // {...register('banner')}
+                      onChange={(e) => handleFileChange('map', e)}
+                    />
                   </div>
                 </div>
 
-                <button
-                  className="px-6 py-3 mt-4 rounded-3xl bg-primary-blue text-base font-bold text-white"
-                  type="submit"
-                >
-                  Registrar Evento
-                </button>
+                <div className="">
+                  <button
+                    className="px-6 py-3 mt-4 rounded-3xl bg-primary-blue text-base font-bold text-white"
+                    type="submit"
+                  >
+                    Registrar Evento
+                  </button>
+                </div>
 
               </main>
             </section>
